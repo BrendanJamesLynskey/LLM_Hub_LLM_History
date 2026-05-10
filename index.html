@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM History &mdash; LLM Hub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a; --bg-card: #0d1117; --bg-code: #161b22;
+            --text-primary: #e6edf3; --text-secondary: #8b949e;
+            --accent: #A371F7; --accent-dim: #A371F744; --accent-glow: #A371F733;
+            --accent-2: #FF7B72; --accent-3: #F0A726; --accent-4: #3FB950;
+            --border: #21262d;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --font-body: 'Inter', sans-serif;
+            --max-width: 960px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-primary); color: var(--text-primary);
+               font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+               overflow-x: hidden; }
+        .hero { min-height: 60vh; display: flex; flex-direction: column;
+                justify-content: center; align-items: center;
+                padding: 4rem 1.5rem 3rem; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 50%;
+                        transform: translateX(-50%); width: 700px; height: 600px;
+                        background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+                        pointer-events: none; z-index: 0; }
+        .hero > * { position: relative; z-index: 1; }
+        .series-label { font-family: var(--font-mono); font-size: 0.85rem;
+                        color: var(--accent); letter-spacing: 0.15em;
+                        text-transform: uppercase; margin-bottom: 1rem; }
+        .hero h1 { font-family: var(--font-display);
+                   font-size: clamp(2rem, 5vw, 3rem); font-weight: 700;
+                   color: var(--text-primary); line-height: 1.2; margin-bottom: 1rem; }
+        .hero h1 .accent { color: var(--accent); }
+        .hero .subtitle { font-size: 1.1rem; color: var(--text-secondary);
+                          max-width: 720px; margin-bottom: 1.5rem; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem;
+                justify-content: center; margin-bottom: 1rem; }
+        .tag { font-family: var(--font-mono); font-size: 0.75rem;
+               padding: 0.25rem 0.75rem; border-radius: 999px;
+               border: 1px solid var(--accent); color: var(--accent);
+               background: var(--accent-dim); white-space: nowrap; }
+        .tag.r { border-color: var(--accent-2); color: var(--accent-2); background: rgba(255,123,114,0.10); }
+        .tag.y { border-color: var(--accent-3); color: var(--accent-3); background: rgba(240,167,38,0.10); }
+        .tag.g { border-color: var(--accent-4); color: var(--accent-4); background: rgba(63,185,80,0.10); }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 2rem 1.5rem; }
+        h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+             color: var(--accent); margin: 1rem 0 1.25rem; }
+        .deck-list { display: flex; flex-direction: column; gap: 0.6rem;
+                     list-style: none; padding: 0; counter-reset: deck; }
+        .deck-card { display: flex; gap: 1rem; padding: 1rem 1.25rem;
+                     background: var(--bg-card); border: 1px solid var(--border);
+                     border-left: 3px solid var(--accent); border-radius: 6px;
+                     transition: border-color 0.15s; counter-increment: deck; }
+        .deck-card:hover { border-color: var(--accent); }
+        .deck-card .num { font-family: var(--font-mono); font-size: 0.8rem;
+                          color: var(--accent); min-width: 2rem;
+                          padding-top: 0.15rem; }
+        .deck-card .num::before { content: counter(deck, decimal-leading-zero); }
+        .deck-card .body { flex: 1; min-width: 0; }
+        .deck-card .deck-title { font-family: var(--font-display); font-size: 1.05rem;
+                                 font-weight: 600; color: var(--text-primary);
+                                 margin-bottom: 0.2rem; }
+        .deck-card a.deck-title { text-decoration: none; }
+        .deck-card a.deck-title:hover { color: var(--accent); }
+        .deck-card .desc { font-size: 0.92rem; color: var(--text-secondary); }
+        .deck-card .meta { font-family: var(--font-mono); font-size: 0.7rem;
+                           color: var(--text-secondary); margin-top: 0.4rem;
+                           display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .badge { display: inline-block; font-family: var(--font-mono);
+                 font-size: 0.65rem; padding: 0.1rem 0.5rem; border-radius: 999px;
+                 border: 1px solid var(--border); color: var(--text-secondary); }
+        .badge.live { border-color: var(--accent); color: var(--accent);
+                      background: var(--accent-dim); }
+        .callout { background: var(--bg-card); border-left: 3px solid var(--accent);
+                   border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+        .callout p { margin-bottom: 0; color: var(--text-secondary); }
+        .callout p strong { color: var(--text-primary); }
+        .footer { text-align: center; padding: 3rem 1.5rem;
+                  color: var(--text-secondary); font-size: 0.85rem;
+                  border-top: 1px solid var(--border); max-width: var(--max-width);
+                  margin: 3rem auto 0; }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.8rem; }
+            .deck-card { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="series-label">LLM Hub &mdash; LLM History</div>
+    <h1>The <span class="accent">History of LLMs</span> &mdash; People, Labs, Ideas</h1>
+    <p class="subtitle">A ten-deck history of large language models. From Shannon's 1948 information theory through the 2017 transformer paper to the multipolar 2026 frontier &mdash; with equal attention to the technical detail and the human story of the people, labs, and rivalries that built the field.</p>
+    <div class="tags">
+        <span class="tag">1948&ndash;2026</span>
+        <span class="tag">Shannon</span>
+        <span class="tag">Bengio</span>
+        <span class="tag">Hinton</span>
+        <span class="tag">Vaswani</span>
+        <span class="tag g">OpenAI</span>
+        <span class="tag y">Anthropic</span>
+        <span class="tag r">DeepMind</span>
+        <span class="tag">Meta</span>
+        <span class="tag">DeepSeek</span>
+    </div>
+</header>
+<main class="container">
+    <h2>Presentations in This Series</h2>
+    <ol class="deck-list">
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_01_Introduction/">Introduction &mdash; Four Eras of Language Modelling &rarr;</a><div class="desc">The arc from rules to statistics to neural to transformers to the scaled frontier. Why LLM history is short, dense, and still moving. Interactive timeline, the people thread, how to read this series.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_02_Pre_Transformer_NLP/">Pre-Transformer NLP &mdash; Shannon to Bahdanau (1948&ndash;2016) &rarr;</a><div class="desc">Information theory, IBM statistical MT, Bengio's 2003 neural language model, Mikolov's word2vec, GloVe, Sutskever's seq2seq, Cho's GRU, Bahdanau attention. The ideas that made the transformer obvious in retrospect.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_03_The_Transformer/">The Transformer Paper &mdash; Eight Authors at Google Brain (2017) &rarr;</a><div class="desc"><em>Attention Is All You Need</em>. How the eight authors actually collaborated, who did what, the BERT vs GPT fork that followed, and why none of the eight stayed at Google.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_04_University_Labs/">University Labs &mdash; Where the Ideas Were Forged &rarr;</a><div class="desc">Toronto (Hinton), Mila/Montreal (Bengio, Goodfellow), Stanford (Manning, Ng, Liang, R&eacute;), CMU (Mitchell, Salakhutdinov), NYU (LeCun, Cho), Berkeley (Russell, Abbeel), MIT, Princeton. The lineage of advisors and students.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_05_OpenAI/">OpenAI &mdash; The Scaling Bet &rarr;</a><div class="desc">Founded 2015 by Altman, Brockman, Sutskever and Musk. The GPT-1 to GPT-5 arc, scaling laws, the ChatGPT moment, the November 2023 board crisis, Sora, the o-series. Personal trajectories of the principals.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_06_Anthropic/">Anthropic &mdash; The Safety-First Frontier Lab &rarr;</a><div class="desc">Founded 2021 by Dario and Daniela Amodei plus six OpenAI co-founders. Constitutional AI, the Claude line through 4.7, the Responsible Scaling Policy, mechanistic interpretability, and the PBC structure.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_07_DeepMind_and_Google/">DeepMind &mdash; The Other AGI Lab &rarr;</a><div class="desc">Hassabis, Suleyman and Legg founding 2010, the DeepMind&ndash;Google acquisition, AlphaGo and AlphaFold, the Gemini programme, the 2023 Brain merger. Why DeepMind nearly missed the LLM wave and how it caught up.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_08_Meta_Mistral_xAI_Others/">Meta, Mistral, xAI &amp; the Other Frontier Labs &rarr;</a><div class="desc">Meta AI / FAIR and LeCun's open-weight stance, Llama 1&ndash;4, Mistral (Mensch &amp; Lample), xAI / Grok, Cohere, Inflection, Adept, Magic, Reka. The diverse second tier.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_09_Chinese_Labs/">Chinese Frontier Labs &mdash; The R1 Moment &rarr;</a><div class="desc">DeepSeek (Liang Wenfeng &amp; the High-Flyer hedge fund), Qwen (Alibaba), Moonshot AI / Kimi, Zhipu / GLM, MiniMax, 01.AI (Kai-Fu Lee), Baidu Ernie. Efficient training under export-control pressure.</div><div class="meta"><span class="badge live">live</span></div></div></li>
+<li class="deck-card"><div class="num"></div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/LLM_History_10_Future_Directions/">Future Directions &mdash; Where the Frontier is Heading &rarr;</a><div class="desc">The open-weight ecosystem, test-time compute, agents and tool-use, world models, multimodal and embodied AI, the scaling-laws debate, alignment, AGI timelines, the regulatory landscape (EU AI Act, US executive orders, UK AISI).</div><div class="meta"><span class="badge live">live</span></div></div></li>
+    </ol>
+
+    <div class="callout">
+        <p><strong>Why a history sub-hub?</strong> Most of this site teaches the technical content of LLMs &mdash; the architectures, the kernels, the agents, the training. But the field is small enough, young enough, and weird enough that the history actually matters: the same dozen labs and the same two hundred people built almost everything you use, and the choices they made still shape what the technology can do. This series puts the names, the rivalries, and the human reasons next to the equations.</p>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Part of the <a href="https://github.com/BrendanJamesLynskey/LLMs">LLMs hub</a> &mdash; an index of presentation series for AI/LLM engineers.</p>
+    <p style="margin-top: 0.5rem;">Companion sub-hubs: <a href="https://github.com/BrendanJamesLynskey/LLM_Hub_Transformer_Architecture">Transformer Architecture</a> &middot; <a href="https://github.com/BrendanJamesLynskey/LLM_Hub_Modern_Architectures">Modern Architectures</a> &middot; <a href="https://github.com/BrendanJamesLynskey/LLM_Hub_Anthropic_Claude">Anthropic Claude</a></p>
+</footer>
+</body>
+</html>

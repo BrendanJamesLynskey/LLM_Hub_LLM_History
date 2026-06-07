@@ -1,6 +1,6 @@
 # LLM History
 
-A ten-deck history of large language models &mdash; from Shannon's 1948 information theory through the 2017 transformer paper to the multipolar 2026 frontier. Equal parts technical detail and the human story of the people, labs, and rivalries that built the field.
+An eleven-deck history of large language models &mdash; from Shannon's 1948 information theory through the 2017 transformer paper to the multipolar 2026 frontier. Equal parts technical detail and the human story of the people, labs, and rivalries that built the field.
 
 **Live index:** https://brendanjameslynskey.github.io/LLM_Hub_LLM_History/
 
@@ -18,6 +18,7 @@ A ten-deck history of large language models &mdash; from Shannon's 1948 informat
 | 08 | [Meta, Mistral, xAI &amp; the Other Frontier Labs](https://brendanjameslynskey.github.io/LLM_History_08_Meta_Mistral_xAI_Others/) | live | Meta AI / FAIR and LeCun's open-weight stance, Llama 1&ndash;4, Mistral (Mensch, Lample &amp; Lacroix), xAI / Grok, Cohere, Inflection, Adept, Magic, Reka. The diverse second tier. |
 | 09 | [Chinese Frontier Labs &mdash; The R1 Moment](https://brendanjameslynskey.github.io/LLM_History_09_Chinese_Labs/) | live | DeepSeek (Liang Wenfeng &amp; the High-Flyer hedge fund), Qwen (Alibaba), Moonshot AI / Kimi, Zhipu / GLM, MiniMax, 01.AI (Kai-Fu Lee), Baidu Ernie. Efficient training under export-control pressure. |
 | 10 | [Future Directions &mdash; Where the Frontier is Heading](https://brendanjameslynskey.github.io/LLM_History_10_Future_Directions/) | live | The open-weight ecosystem, test-time compute, agents and tool-use, world models, multimodal and embodied AI, the scaling-laws debate, alignment, AGI timelines, the regulatory landscape (EU AI Act, US executive orders, UK AISI). |
+| 11 | [NVIDIA, AI2 &amp; the Open-Model Builders](https://brendanjameslynskey.github.io/LLM_History_11_NVIDIA_AI2_Open_Model_Builders/) | live | The producers outside the consumer-chat race. NVIDIA (Megatron-LM, Nemotron), the Allen Institute for AI (truly-open OLMo, Dolma, T&uuml;lu), EleutherAI (the Pile, Pythia), BigScience/BLOOM, Hugging Face, Databricks/MosaicML (DBRX), IBM Granite, Snowflake Arctic, AI21 (Jamba), Microsoft Phi and TII Falcon. Hardware vendors, open-science non-profits, and enterprise builders. |
 
 ## Where this fits
 
@@ -25,4 +26,4 @@ Part of the [LLMs hub](https://github.com/BrendanJamesLynskey/LLMs) &mdash; an i
 
 ## How to read it
 
-Decks 01&ndash;03 are the technical spine &mdash; pre-transformer NLP into the 2017 paper. Read them in order. Decks 04&ndash;09 are profile decks of the labs and people that built the modern field; you can read them in any order. Deck 10 stands alone &mdash; it is the only one that is genuinely speculative, and it is intended to date.
+Decks 01&ndash;03 are the technical spine &mdash; pre-transformer NLP into the 2017 paper. Read them in order. Decks 04&ndash;09 and 11 are profile decks of the labs and people that built the modern field; you can read them in any order. Deck 11 covers the producers outside the consumer-chat race &mdash; the chip vendors, open-science non-profits and enterprise builders behind the open-weight ecosystem. Deck 10 stands alone &mdash; it is the only one that is genuinely speculative, and it is intended to date.

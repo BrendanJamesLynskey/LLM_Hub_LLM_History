@@ -1,3 +1,7 @@
+<!-- portfolio-strip:start (brief 40) -->
+<sub>**Brendan Lynskey** · [Portfolio home](https://brendanjameslynskey.github.io/) · [Interactive sites](https://brendanjameslynskey.github.io/#sites)</sub>
+<!-- portfolio-strip:end -->
+
 # LLM History
 
 An eleven-deck history of large language models &mdash; from Shannon's 1948 information theory through the 2017 transformer paper to the multipolar 2026 frontier. Equal parts technical detail and the human story of the people, labs, and rivalries that built the field.
